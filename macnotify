@@ -1,0 +1,29 @@
+#/bin/bash
+
+title="Notification"
+usage=0
+
+while getopts "t:h" i
+do
+    case $i in
+		t)
+			title=$OPTARG
+			echo title
+			;;
+		h)
+			usage=1
+			;;
+	esac
+done
+
+shift $((OPTIND-1))
+text=$*
+
+if [ $usage -eq 1 -o "$text" == "" ]
+then
+	echo "macnotify [-t <title>] text"
+	exit 1
+fi
+
+script='display notification "'$text'" with title "'$title'"'
+osascript -e "$script"
